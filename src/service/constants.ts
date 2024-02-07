@@ -3,9 +3,11 @@ import { constants } from "buffer";
 
 export const enum CUSTOM_ERRORS {
     VALIDATION_ERROR = 'ValidationError',
+    CAST_ERROR = 'CastError',
     SERVER_ERROR = 'Server error ;(',
     NO_USER_ERROR = 'User is not exist',
-    NO_USER_OR_CARD_ERROR = 'User or Card is not exist'
+    NO_USER_OR_CARD_ERROR = 'User or Card is not exist',
+    NO_PAGE = 'Page is not found'
 }
 
 export const enum USER_ID {

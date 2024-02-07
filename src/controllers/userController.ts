@@ -37,7 +37,7 @@ class UserController {
         try {
             const userId = req.user._id
             const {name, about} = req.body
-            const user = await Users.findByIdAndUpdate(userId, {'name': name, 'about': about}, {new: true}).orFail(() => {
+            const user = await Users.findByIdAndUpdate(userId, {'name': name, 'about': about}, {new: true, runValidators: true}).orFail(() => {
                 const error = new Error(CUSTOM_ERRORS.NO_USER_ERROR) as ErrorWithStatusCode
                 error.statusCode = 404
                 throw error;
@@ -51,6 +51,10 @@ class UserController {
             if (err.statusCode === 404) {
                 return res.status(404).json(CUSTOM_ERRORS.NO_USER_ERROR) 
            }
+
+           if (error instanceof Error.ValidationError) {
+            return res.status(400).json({ message: 'Validation Error', errors: error.errors });
+        }
 
            return res.status(500).json(CUSTOM_ERRORS.NO_USER_ERROR)
         }
@@ -76,6 +80,28 @@ class UserController {
            }
 
            return res.status(500).json(CUSTOM_ERRORS.SERVER_ERROR)
+        }
+    }
+
+    async getUserByID (req: Request, res: Response) {
+        try {
+            const {userId} = req.params
+            const user = await Users.findById(userId)
+                .orFail(() => {
+                    const error = new Error(CUSTOM_ERRORS.NO_USER_ERROR) as ErrorWithStatusCode
+                    error.statusCode = 404
+                    throw error
+            })
+            return res.status(200).json(user)
+        } 
+        catch(error) {
+            const err = error as ErrorWithStatusCode
+
+            if(err.statusCode === 404) {
+                return res.status(404).json(CUSTOM_ERRORS.NO_USER_ERROR)
+            }
+
+            res.status(500).json(CUSTOM_ERRORS.SERVER_ERROR)
         }
     }
 }

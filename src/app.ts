@@ -2,7 +2,7 @@ import express, { NextFunction, Request, Response } from 'express';
 import mongoose from 'mongoose';
 import cardRoute from './routes/cardRoute';
 import userRoute from './routes/userRoute';
-import { USER_ID } from 'service/constants';
+import { CUSTOM_ERRORS, USER_ID } from 'service/constants';
 
 
 
@@ -26,6 +26,9 @@ app.get('/', (req: Request, res: Response) => {
 
 app.use('/', cardRoute)
 app.use('/', userRoute)
+app.use('*', (req: Request, res: Response) => {
+    res.status(404).json(CUSTOM_ERRORS.NO_PAGE)
+})
 
 
 async function startApp() {

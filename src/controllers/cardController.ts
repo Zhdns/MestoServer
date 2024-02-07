@@ -20,7 +20,7 @@ class CardController {
 
         const card = await Cards.create({name, link, owner})
         console.log(req.body)
-        res.status(200).json(card)
+        res.status(201).json(card)
         }
         catch(error) {
             const err = error as ErrorWithStatusCode;
@@ -76,12 +76,13 @@ class CardController {
         }
         catch(error) {
             const err = error as ErrorWithStatusCode;
+            const mongooseErr = error as Error.CastError
 
             if (err.statusCode === 404) {
                 return res.status(404).json(CUSTOM_ERRORS.NO_USER_OR_CARD_ERROR) 
            }
 
-           if (err.statusCode === 400) {
+           if (mongooseErr?.name === CUSTOM_ERRORS.CAST_ERROR) {
                 return res.status(400).json(CUSTOM_ERRORS.NO_USER_ERROR);
         
            }
@@ -106,9 +107,14 @@ class CardController {
         }
         catch(error) {
             const err = error as ErrorWithStatusCode;
+            const mongooseErr = error as Error.CastError
 
             if (err.statusCode === 404) {
                 return res.status(404).json(CUSTOM_ERRORS.NO_USER_OR_CARD_ERROR) 
+           }    
+           
+           if(mongooseErr?.name === CUSTOM_ERRORS.CAST_ERROR) {
+            return res.status(400).json(CUSTOM_ERRORS.NO_USER_OR_CARD_ERROR)
            }
 
            return res.status(500).json(CUSTOM_ERRORS.SERVER_ERROR)
@@ -133,9 +139,14 @@ class CardController {
         }
         catch(error) {
             const err = error as ErrorWithStatusCode;
+            const mongooseErr = error as Error.CastError
 
             if (err.statusCode === 404) {
                 return res.status(404).json(CUSTOM_ERRORS.NO_USER_OR_CARD_ERROR) 
+           }
+
+           if(mongooseErr?.name === CUSTOM_ERRORS.CAST_ERROR) {
+            return res.status(400).json(CUSTOM_ERRORS.NO_USER_OR_CARD_ERROR)
            }
 
            return res.status(500).json(CUSTOM_ERRORS.SERVER_ERROR)
