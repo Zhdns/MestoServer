@@ -10,7 +10,7 @@ class UserController {
         try {
             const {name, about, avatar} = req.body
             const user =  await Users.create({name, about, avatar})
-            res.status(200).json(user)
+            res.status(201).json(user)
         }
         catch(error) {
             const mongooseError = error as Error.ValidationError
