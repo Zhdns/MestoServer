@@ -1,5 +1,5 @@
 import mongoose, { Document, ObjectId } from 'mongoose';
-import { CUSTOM_VALIDATION_TEXT } from 'service/constants';
+import { CUSTOM_VALIDATION_TEXT } from '../service/constants';
 
 interface ICard extends Document {
     name: string,

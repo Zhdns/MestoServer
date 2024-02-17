@@ -1,12 +1,14 @@
 import { Router } from 'express';
 import CardController from '../controllers/cardController';
+import auth from '../middleware/auth';
+import errorCatcher from '../middleware/errorCatcher';
 
 const cardRoute = Router();
 
-cardRoute.get('/cards', CardController.getAllCards);
-cardRoute.post('/cards', CardController.postCard);
-cardRoute.delete('/cards/:cardId', CardController.deleteSelectedCard);
-cardRoute.put('/cards/:cardId/likes', CardController.likeCard);
-cardRoute.delete('/cards/:cardId/likes', CardController.dislikeCard);
+cardRoute.get('/cards', CardController.getAllCards, errorCatcher);
+cardRoute.post('/cards', auth, CardController.postCard, errorCatcher);
+cardRoute.delete('/cards/:cardId', auth, CardController.deleteSelectedCard, errorCatcher);
+cardRoute.put('/cards/:cardId/likes', auth, CardController.likeCard, errorCatcher);
+cardRoute.delete('/cards/:cardId/likes', auth, CardController.dislikeCard, errorCatcher);
 
 export default cardRoute;

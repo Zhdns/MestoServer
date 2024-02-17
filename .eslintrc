@@ -38,6 +38,8 @@
                 "ts": "never"
             }
         ],
-        "no-underscore-dangle": ["error", {"allow": ["_id"]}]
+        "no-underscore-dangle": ["error", {"allow": ["_id"]}],
+        "no-unused-vars": "off", 
+        "no-shadow": "off"
     }
 }
