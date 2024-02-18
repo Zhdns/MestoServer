@@ -1,5 +1,5 @@
 import mongoose, { Document } from 'mongoose';
-import { CUSTOM_VALIDATION_TEXT } from '../service/constants';
+import { CUSTOM_ERRORS, CUSTOM_VALIDATION_TEXT, urlRegex } from '../service/constants';
 
 interface IUser extends Document {
     name: string;
@@ -23,7 +23,16 @@ const Users = new mongoose.Schema({
     minlength: [2, CUSTOM_VALIDATION_TEXT.LESS_THEN_MIN],
     maxlength: [30, CUSTOM_VALIDATION_TEXT.MORE_THEN_MAX],
   },
-  avatar: { type: String, required: true },
+  avatar: {
+    type: String,
+    required: true,
+    validate: {
+      validator(v: string): boolean {
+        return urlRegex.test(v);
+      },
+      message: CUSTOM_ERRORS.NO_VALID_LINK,
+    },
+  },
   email: { type: String, unique: true, required: true },
   password: {
     type: String,

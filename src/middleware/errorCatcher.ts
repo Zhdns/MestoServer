@@ -42,7 +42,7 @@ const errorCatcher = (error: Error, req: Request, res: Response, next: NextFunct
   }
 
   logger.error('Error message: %s', error.message);
-  return res.status(500).json(error.message);
+  return res.status(500).json(CUSTOM_ERRORS.SERVER_ERROR_RUS);
 };
 
 export default errorCatcher;

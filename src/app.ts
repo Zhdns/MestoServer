@@ -31,10 +31,6 @@ app.use('/', userRoute);
 app.use('*', (req: Request, res: Response) => {
   res.status(404).json(CUSTOM_ERRORS.NO_PAGE);
 });
-// app.use((error: Error, _req: Request, res: Response, _next: NextFunction) => {
-//   logger.error('Error message: %s', error.message);
-//   res.status(500).send('Somthing wrong');
-// });
 
 async function startApp() {
   try {
